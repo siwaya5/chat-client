@@ -1,0 +1,210 @@
+<style>
+    .cardSpecial{
+        margin-bottom: 0px !important; 
+        margin-top: 0px !important;
+    }
+
+    .card{
+        margin-bottom: 0px !important; 
+        margin-top: 0px !important;
+    }
+
+    .col-md-12{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .hard-shadow {
+        color: white;
+        text-shadow: -2px 4px 0 rgba(0,0,0,0.3);
+    }
+
+
+    .progress-bar-danger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #ffffff;
+        text-align: center;
+        background-color: #e00000;
+        transition: width 0.6s ease; }
+
+    .progress-bar-warning {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #ffffff;
+        text-align: center;
+        background-color: #ff8904;
+        transition: width 0.6s ease; }
+
+
+    .speech-wrapper {
+        padding: 0px 40px;
+    }
+    .speech-wrapper .bubble {
+        width: 240px;
+        height: auto;
+        display: block;
+        background: #f5f5f5;
+        border-radius: 4px;
+        box-shadow: 2px 8px 5px #000;
+        position: relative;
+        margin: 0 0px 25px;
+    }
+    .speech-wrapper .bubble.alt {
+        margin: 0 0 22px 75px;
+    }
+    .speech-wrapper .bubble .txt {
+        padding: 8px 55px 8px 14px;
+    }
+    .speech-wrapper .bubble .txt .name {
+        font-weight: 600;
+        font-size: 12px;
+        margin: 0 0 4px;
+        color: #3498db;
+    }
+    .speech-wrapper .bubble .txt .name span {
+        font-weight: normal;
+        color: #b3b3b3;
+    }
+    .speech-wrapper .bubble .txt .name.alt {
+        color: #2ecc71;
+    }
+    .speech-wrapper .bubble .txt .message {
+        font-size: 12px;
+        margin: 0;
+        color: #2b2b2b;
+    }
+    .speech-wrapper .bubble .txt .timestamp {
+        font-size: 11px;
+        position: absolute;
+        bottom: 8px;
+        right: 10px;
+        text-transform: uppercase;
+        color: #999;
+    }
+    .speech-wrapper .bubble .bubble-arrow {
+        position: absolute;
+        width: 0;
+        bottom: 42px;
+        left: -16px;
+        height: 0;
+    }
+    .speech-wrapper .bubble .bubble-arrow.alt {
+        right: -2px;
+        bottom: 40px;
+        left: auto;
+    }
+    .speech-wrapper .bubble .bubble-arrow:after {
+        content: "";
+        position: absolute;
+        border: 0 solid transparent;
+        border-top: 9px solid #f5f5f5;
+        border-radius: 0 20px 0;
+        width: 15px;
+        height: 30px;
+        transform: rotate(145deg);
+    }
+    .speech-wrapper .bubble .bubble-arrow.alt:after {
+        transform: rotate(45deg) scaleY(-1);
+    }
+
+    .card-footer{
+        display: initial !important;
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+        margin: 0 0px 0px !important; 
+    }
+
+
+</style>
+
+<div ng-controller="infinitoController as infinitoController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card cardSpecial">
+
+                <div class="push_button red "> Chat
+                    <h5 class="card-title">
+                    </h5>
+                </div>
+                <div class="card-body" id="cardBodyInfinito" 
+                     style="
+                     overflow-y: scroll">
+                    <div class="table-responsive">
+
+                        <table class="table table-hover">
+                            <tr>
+                                <th>User</th>
+                                <th>Chat</th>
+                            </tr>
+                            <tr ng-repeat="item in infinitoController.listUsers"> 
+                                <td style="width: 80%">{{item.fullname}}</td>
+ 
+                                <td class="td-actions" style="width: 10%">
+                                    <button type="button" 
+                                            rel="tooltip" 
+                                            ng-click="infinitoController.changeToChat(item)" 
+                                            title="Chat" 
+                                            class="btn btn-primary btn-link btn-sm">
+                                        <i class="material-icons">edit</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="cardBodyChat">
+                    <div class="push_button2 yellow ">
+                        <a class="nav-link" ng-click="infinitoController.changeToListOfUsers()" style="text-align:left">
+                            <i class="material-icons">keyboard_arrow_left</i> back
+                            <div class="ripple-container"></div>
+                        </a>
+                    </div>
+                    <div class="card-body" id="cardBodyChat2"  
+                         style="padding-top: 5px; background: url('http://forums.crackberry.com/attachments/blackberry-10-wallpapers-f308/137432d1361639896t-z10-wallpaper-set-z10-music.jpg');">
+                        <div class="speech-wrapper" id="spech" style="overflow-y: scroll" >
+                            <div ng-repeat="item in infinitoController.listOfMessages">
+                                <div class="{{item.divGlobalStyle}}">
+                                    <div class="txt">
+                                        <p class="name">{{item.username}}</p>
+                                        <p class="message">{{item.message}}</p>
+                                        <span class="timestamp">{{item.time}}</span>
+                                    </div>
+                                    <div class="{{item.divBubblelStyle}}"></div>
+                                </div>
+                            </div>
+
+                            <div id="chatbox">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group" id="divMessage">
+                            <div class="input-group" >
+                                <input style="  white-space: pre-wrap;
+                                       word-wrap: break-word;
+                                       overflow-wrap: break-word;
+                                       text-size:18px; color: black;" 
+                                       ng-model="infinitoController.message"
+                                       type="text" class="form-control" placeholder="Message">
+                                <span class="input-group-btn" style="position: static" >
+                                    <button ng-click="infinitoController.sendMessage()" class="push_button green" title="Send Message">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
