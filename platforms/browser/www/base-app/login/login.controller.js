@@ -38,11 +38,13 @@ function loginController($scope, loginService, appGenericConstant, appConstant, 
     };
 
     socket.on('signUpResponse', function (data) {
-        if (data.success) {
-            appConstant.SHOW_MSG_SUCCESS(data.message);
-        } else {
+        if (!data.success) {
             appConstant.SHOW_MSG_WARNING(data.message);
+			return
         }
+		appConstant.SHOW_MSG_SUCCESS(data.message);
+		$('#myModal').modal('hide')
+		$scope.$digest();
     });
 
     socket.on('signInResponse', function (data) {
