@@ -192,6 +192,7 @@
                                        overflow-wrap: break-word;
                                        text-size:18px; color: black;" 
                                        ng-model="infinitoController.message"
+									   ng-keyup="infinitoController.onPresionarEnter($event)"
                                        type="text" class="form-control" placeholder="Message">
                                 <span class="input-group-btn" style="position: static" >
                                     <button ng-click="infinitoController.sendMessage()" class="push_button green" title="Send Message">

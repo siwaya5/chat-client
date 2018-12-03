@@ -37,8 +37,15 @@ function infinitoController($scope, $compile, $http, utilServices, infinitoServi
             usernameTwo: item.username,
             time: Date()
         };
-
-        socket.emit('createChat', json);
+		
+		gestionCtrl.message = "";
+		if(item.username !== null && item.username !== undefined){
+			gestionCtrl.jsonCopy = json; 
+			socket.emit('createChat', gestionCtrl.jsonCopy);
+		}else{
+			socket.emit('createChat', gestionCtrl.jsonCopy);
+		}
+		
         $('#cardBodyInfinito').css({"display": "none"});
         $('.cardBodyChat').css({"display": "initial"});
     };
@@ -67,7 +74,9 @@ function infinitoController($scope, $compile, $http, utilServices, infinitoServi
         if (data) {
             gestionCtrl.chat = data;
             gestionCtrl.findChatMessages(gestionCtrl.chat._id);
-        }
+        }else{
+			gestionCtrl.changeToChat(gestionCtrl.jsonCopy);
+		}
     });
 
     gestionCtrl.findChatMessages = function (id) {
@@ -98,6 +107,12 @@ function infinitoController($scope, $compile, $http, utilServices, infinitoServi
         });
     };
 
+	gestionCtrl.onPresionarEnter = function (tecla) {
+        if (tecla.keyCode === 13) {
+            gestionCtrl.sendMessage();
+        }
+    };
+	
     gestionCtrl.sendMessage = function () {
         var json = {
             objectIdChat: gestionCtrl.chat._id,

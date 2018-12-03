@@ -173,6 +173,12 @@ function groupChatCtrl($scope, appGenericConstant, appConstant, utilServices, gr
             return;
         });
     };
+	
+	gestionCtrl.onPresionarEnter = function (tecla) {
+        if (tecla.keyCode === 13) {
+            gestionCtrl.sendMessage();
+        }
+    };
 
     gestionCtrl.sendMessage = function () {
         var json = {
