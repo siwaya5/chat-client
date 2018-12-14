@@ -1,0 +1,220 @@
+<div ng-controller="groupChatCtrl as groupChatCtrl">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card cardSpecial">
+                <div class="push_button black"> Group Chat List
+                    <h5 class="card-title">
+                    </h5>
+                </div>
+                <div class="card-body" id="cardBodyInfinito" 
+                     style="overflow-y: scroll">
+                    <div class="table-responsive">
+                        <div class="form-group">
+                            <button type="button" ng-click="groupChatCtrl.openModalCreateGroupChat()" 
+                                    class="btn btn-block btn-success">Add Group</button>
+                        </div>
+                        <table object-table class="hover-column" display="10" id="listGroupChat"
+                               data="groupChatCtrl.listGroup"
+                               headers="N,Group,Options" fields="index,groupName"
+                               selected-model="liqModuloCtrl.report.selectedModulo" 
+                               sorting="false" 
+                               editable="false"
+                               search="false" 
+                               resize="false" >
+                            <tbody>
+                                <tr>
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{::item.groupName}}</td>
+                                    <td class="td-actions" style="width:10%">
+                                        <button type="button" 
+                                                rel="tooltip" 
+                                                ng-click="$owner.groupChatCtrl.addMember(item)" 
+                                                title="Add Member" 
+                                                class="btn btn-primary btn-link btn-sm">
+                                            <i class="material-icons">add</i>
+                                        </button>
+                                        <button type="button" 
+                                                rel="tooltip" 
+                                                ng-click="$owner.groupChatCtrl.changeToGroups(item)" 
+                                                title="Chat" 
+                                                class="btn btn-primary btn-link btn-sm">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                        <button type="button" 
+                                                rel="tooltip" 
+                                                ng-click="$owner.groupChatCtrl.findUsersFromGroupModal(item)" 
+                                                title="Info Chat" 
+                                                class="btn btn-primary btn-link btn-sm">
+                                            <i class="material-icons">info</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr ng-show="$filtered.length === $owner.appConstantsView.CERO && $owner.groupChatCtrl.listGroup.length !== $owner.appConstantsView.CERO">
+                                    <td colspan="1">No Data</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="cardBodyChat">
+                    <div class="push_button2 black ">
+                        <a class="nav-link" ng-click="groupChatCtrl.changeToListOfGroups()" style="text-align:left">
+                            <i class="material-icons">keyboard_arrow_left</i> back
+                            <div class="ripple-container"></div>
+                        </a>
+                    </div>
+                    <div class="card-body" id="cardBodyChat2"  
+                         style="padding-top: 5px; background: url('http://forums.crackberry.com/attachments/blackberry-10-wallpapers-f308/137432d1361639896t-z10-wallpaper-set-z10-music.jpg');">
+                        <div class="speech-wrapper" id="spech" style="overflow-y: scroll" >
+                            <div ng-repeat="item in groupChatCtrl.listOfMessages">
+                                <div class="{{item.divGlobalStyle}}">
+                                    <div class="txt">
+                                        <p class="name">{{item.username}}</p>
+                                        <p class="message">{{item.message}}</p>
+                                        <span class="timestamp">{{item.time}}</span>
+                                    </div>
+                                    <div class="{{item.divBubblelStyle}}"></div>
+                                </div>
+                            </div>
+
+                            <div id="chatbox">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group" id="divMessage" style="width:100%">
+                            <div class="input-group" >
+                                <input style="white-space: pre-wrap;
+                                       word-wrap: break-word;
+                                       overflow-wrap: break-word;
+                                       text-size:18px; color: black;" 
+                                       ng-model="groupChatCtrl.message"
+                                       ng-keyup="groupChatCtrl.onKeyEnter($event)"
+                                       type="text" class="form-control" placeholder="Message">
+                                <span class="input-group-btn" style="position: static" >
+<!--                                    <button ng-click="groupChatCtrl.sendMessage()" class="push_button green" title="Send Message">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>-->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" id="myModalCreateGroup" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header push_button2 black">
+                    <h5 class="modal-title ">Create Group</h5>
+                </div>
+                <div class="modal-body" style="padding-top: 20px;">
+                    <form name="singForm"> 
+                        <div class="form-group">
+                            <input type="text" name="inputGroupName" class="form-control" ng-model="groupChatCtrl.groupName"   placeholder="Group Name" required>
+                        </div>
+                    </form> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-click="groupChatCtrl.CreateGroupChat()" class="btn btn-block btn-success">Save changes</button>
+                    <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="myModalUsers" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header push_button2 black">
+                    <h5 class="modal-title ">Add User to Group</h5>
+                </div>
+
+                <div class="modal-body" style="padding-top: 20px;">
+                    <div class="form-group">
+                        <input type="text" ng-model="groupChatCtrl.filterUsersToAdd" class="form-control"
+                               placeholder="Search User">
+                    </div>
+                    <table object-table class="hover-column" display="10" id="listUserToAdd"
+                           data="groupChatCtrl.listUsersToAdd"
+                           headers="User,Add to Group" fields="index,fullname"
+                           sorting="false" 
+                           editable="false"
+                           search="false" 
+                           resize="false" 
+                           add-filter="|filter: $owner.groupChatCtrl.filterUsersToAdd">
+                        <tbody>
+                            <tr>
+                                <td style="width: 90%">{{::item.fullname}}</td>
+                                <td class="td-actions">
+                                    <input type="checkbox" name="addToChat" ng-model="item.checked">
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr ng-show="$filtered.length === $owner.appConstantsView.CERO && $owner.groupChatCtrl.listGroup.length !== $owner.appConstantsView.CERO">
+                                <td colspan="1">No Data</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-click="groupChatCtrl.addUsersToGroup()" class="btn btn-block btn-success">Save changes</button>
+                    <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="myModalUsersInfo" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header push_button2 black">
+                    <h5 class="modal-title ">List of Users {{groupChatCtrl.groupName}}</h5>
+                </div>
+
+                <div class="modal-body" style="padding-top: 20px;">
+                    <div class="form-group">
+                        <input type="text" ng-model="groupChatCtrl.filterUsersToAdd" class="form-control"
+                               placeholder="Search User">
+                    </div>
+                    <table object-table class="hover-column" display="10" id="listUserToAdd"
+                           data="groupChatCtrl.listUserToShow"
+                           headers="User" fields="username"
+                           sorting="false" 
+                           editable="false"
+                           search="false" 
+                           resize="false" 
+                           add-filter="|filter: $owner.groupChatCtrl.filterUsersToAdd">
+                        <tbody>
+                            <tr>
+                                <td style="width: 90%">{{::item.username}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr ng-show="$filtered.length === $owner.appConstantsView.CERO && $owner.groupChatCtrl.listGroup.length !== $owner.appConstantsView.CERO">
+                                <td colspan="1">No Data</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

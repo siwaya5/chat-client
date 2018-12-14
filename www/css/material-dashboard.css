@@ -11266,7 +11266,7 @@ h2.title {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 12px 8px;
+  padding: 10px 8px;
   vertical-align: middle; }
 
 .table thead tr th {
@@ -11289,7 +11289,7 @@ h2.title {
 
 .table .td-actions .btn {
   margin: 0px;
-  padding: 5px; }
+  padding: 0px; }
 
 .table > tbody > tr {
   position: relative; }
@@ -11770,7 +11770,7 @@ label {
     padding: 0.9375rem 20px;
     position: relative; }
     .card .card-body .form-group {
-      margin: 27px 0 0; }
+      margin: -5px 0 0; }
   .card .card-header {
     z-index: 3 !important; }
     .card .card-header .card-title {

@@ -1,0 +1,70 @@
+<div ng-controller="profileController as profileController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card cardSpecial" style=" background-size: 100% 100%;">
+                <div class="push_button black "> Profile
+                    <h5 class="card-title">
+                    </h5>
+                </div>
+                <div class="card-body" id="cardBodyPerfil" style="    background-color: black;">
+                    <div class="row" style="padding-bottom: 10px;">
+
+                        <div class="col-md-12">
+                            <div class="card card-profile">
+                                <div class="card-avatar">
+                                    <!--<img class="img" src="{{profileController.profile.photo.path}}" />-->
+                                    <!--<input type="file" id="file_input">-->
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-category text-gray">{{profileController.profile.major}}</h6>
+                                    <h4 class="card-title">{{profileController.profile.fullname}}</h4>
+                                    <p class="card-description">
+                                        {{profileController.profile.something}}
+                                    </p>
+
+                                    <form action="http://localhost:2000/upload" onsubmit="return validate(); " enctype="multipart/form-data" method="POST"> 
+                                        <input type="text" ng-show="false" name="idAccount" id="idAccount" ng-model="profileController.profile._id" />
+                                        <input type="file" name="photo" id="photo"/>
+                                        <input type="submit" value="Upload Photo"/>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("div").removeClass("sorting-container");
+    var x = document.getElementsByClassName("sorting-container");
+
+    function validate() {
+
+        valid = true;
+
+        if (document.getElementById("photo").files.length == 0) {
+            console.log("no files selected");
+            $.notify({
+                icon: "add_alert",
+                message: 'No File Selected'
+            }, {
+                type: 'warning',
+                timer: 1000,
+                z_index: 100000,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                }
+            });
+            valid = false;
+        }else{
+            $location.path('/profile');
+        }
+
+        return valid //true or false
+    }
+</script>

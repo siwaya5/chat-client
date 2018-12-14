@@ -3,10 +3,10 @@ app.service('loginService', loginService);
 loginService.$inject = ['utilServices', 'appGenericConstant'];
 
 function loginService(utilServices, appGenericConstant) {
-    var url = appGenericConstant.URL + "api/auth/";
+    var url = appGenericConstant.URL + "api/account/";
 
-    this.postLogin = function (rs) {
-        var urlrequest = url + "login";
-        return utilServices.EjecutarServicePost(urlrequest, rs);
-    }
+    this.onSingUp = function (rs) {
+        var urlrequest = url;
+        return utilServices.SERVICE_POST(urlrequest, rs);
+    };
 }

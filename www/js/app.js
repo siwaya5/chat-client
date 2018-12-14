@@ -11,27 +11,17 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 	{
       name: 'profile',
       url: '/profile',
-      templateUrl: 'base-app/1/profile.html'
+      templateUrl: 'base-app/profile/profile.html'
     },
     {
       name: 'group-chat',
       url: '/group-chat',
-      templateUrl: 'base-app/2/group-chat.html'
+      templateUrl: 'base-app/group-chat/group-chat.html'
     },
 	{
       name: 'infinito',
       url: '/infinito',
-      templateUrl: 'base-app/3/infinito.html'
-    },
-    {
-      name: 'notas-estudiante',
-      url: '/notas-estudiante',
-      templateUrl: 'base-app/nota-estudiante/nota-estudiante.html'
-    },
-	{
-      name: 'apoyanos',
-      url: '/apoyanos',
-      templateUrl: 'base-app/5/apoyanos.html'
+      templateUrl: 'base-app/chat/infinito.html'
     }
 
   ];

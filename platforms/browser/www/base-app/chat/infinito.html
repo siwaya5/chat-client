@@ -1,0 +1,93 @@
+<div ng-controller="infinitoController as infinitoController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card cardSpecial">
+                <div class="push_button black "> Chat
+                    <h5 class="card-title">
+                    </h5>
+                </div>
+                <div class="card-body" id="cardBodyInfinito" 
+                     style="overflow-y: scroll">
+                    <div class="table-responsive">
+                        <table object-table class="hover-column" display="10" id="listGroupChat"
+                               data="infinitoController.listUsers"
+                               headers="User,Chat" fields="index,groupName"
+                               selected-model="liqModuloCtrl.report.selectedModulo" 
+                               sorting="false" 
+                               editable="false"
+                               resize="false" >
+                            <tbody>
+                                <tr>
+                                    <td style="width: 80%">{{item.fullname}}</td>
+                                    <td class="td-actions" style="width:10%">
+                                        <button type="button" 
+                                                rel="tooltip" 
+                                                ng-click="$owner.infinitoController.changeToChat(item)" 
+                                                title="Chat" 
+                                                class="btn btn-primary btn-link btn-sm">
+                                            <i class="material-icons">edit</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr ng-show="$filtered.length === $owner.appConstantsView.CERO && $owner.infinitoController.listUsers.length !== $owner.appConstantsView.CERO">
+                                    <td colspan="1">No Data</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="cardBodyChat">
+                    <div class="push_button2 black ">
+                        <a class="nav-link" ng-click="infinitoController.changeToListOfUsers()" style="text-align:left">
+                            <i class="material-icons">keyboard_arrow_left</i> back
+                            <div class="ripple-container"></div>
+                        </a>
+                    </div>
+                    <div class="card-body" id="cardBodyChat2"  
+                         style="padding-top: 5px; background: url('http://forums.crackberry.com/attachments/blackberry-10-wallpapers-f308/137432d1361639896t-z10-wallpaper-set-z10-music.jpg');">
+                        <div class="speech-wrapper" id="spech" style="overflow-y: scroll" >
+                            <div ng-repeat="item in infinitoController.listOfMessages">
+                                <div class="{{item.divGlobalStyle}}">
+                                    <div class="txt">
+                                        <p class="name">{{item.username}}</p>
+                                        <p class="message">{{item.message}}</p>
+                                        <span class="timestamp">{{item.time}}</span>
+                                    </div>
+                                    <div class="{{item.divBubblelStyle}}"></div>
+                                </div>
+                            </div>
+
+                            <div id="chatbox">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="form-group" id="divMessage" style="width: 100%;">
+                            <div class="input-group" >
+                                <input style="white-space: pre-wrap;
+                                       word-wrap: break-word;
+                                       overflow-wrap: break-word;
+                                       text-size:18px; color: black;" 
+                                       ng-model="infinitoController.message"
+                                       ng-keyup="infinitoController.onKeyEnter($event)"
+                                       type="text" class="form-control" placeholder="(Press Enter to Send Message)">
+                                <span class="input-group-btn" style="position: static" >
+<!--                                    <button ng-click="infinitoController.sendMessage()" class="push_button green" title="Send Message">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>-->
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
