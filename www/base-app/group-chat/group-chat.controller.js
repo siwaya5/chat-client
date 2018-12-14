@@ -95,13 +95,23 @@ function groupChatCtrl($scope, appGenericConstant, appConstant, utilServices, gr
     };
 
     gestionCtrl.addUsersToGroup = function () {
-        socket.emit('addUserToGroup', gestionCtrl.listUsersToAdd);
+
+        var listToAdd = jQuery.map(gestionCtrl.listUsersToAdd, function (obj) {
+            if (obj.checked)
+                return  obj;
+        });
+        appConstant.SHOW_MSG_SUCCESS("You added users to group");
+        $('#myModalUsers').modal('hide');
+
+        socket.emit('addUserToGroup', listToAdd);
     };
 
     socket.on('addUserToGroupResponse', function (data) {
-        $('#myModalUsers').modal('hide');
-        appConstant.SHOW_MSG_SUCCESS(data.message);
-        $scope.$digest();
+        if (data.data.username === gestionCtrl.user.username) {
+            appConstant.SHOW_MSG_SUCCESS(data.message + " " + data.data.groupName);
+            gestionCtrl.findGroupChatByAccountId(gestionCtrl.user._id);
+            $scope.$digest();
+        }
     });
 
     gestionCtrl.CreateGroupChat = function () {
@@ -111,13 +121,14 @@ function groupChatCtrl($scope, appGenericConstant, appConstant, utilServices, gr
             accountId: gestionCtrl.user._id,
             time: Date()
         };
-        $('#myModalCreateGroup').modal('hide');
-        appConstant.SHOW_MSG_SUCCESS("Group Created");
         socket.emit('createGroupChat', json);
     };
 
-    socket.on('createGroupChatResponse', function () {
+    socket.on('createGroupChatResponse', function (data) {
         gestionCtrl.findGroupChatByAccountId(gestionCtrl.user._id);
+        $('#myModalCreateGroup').modal('hide');
+        appConstant.SHOW_MSG_SUCCESS("Group Created");
+        $scope.$digest();
     });
 
     gestionCtrl.changeToGroups = function (item) {
@@ -201,8 +212,6 @@ function groupChatCtrl($scope, appGenericConstant, appConstant, utilServices, gr
             if (data.objectIdGroup === gestionCtrl.chat.groupId) {
                 chatbox.innerHTML += bubble;
             }
-        } else {
-//            addNotification(data);
         }
 
         scrollBodyChat();
@@ -228,14 +237,6 @@ function groupChatCtrl($scope, appGenericConstant, appConstant, utilServices, gr
         var parent_width = parent.clientWidth - (bubbleWidth);
         $('.bubble.alt').css({"margin-left": parent_width});
     }
-
-//    function addNotification(data) {
-//        var a = gestionCtrl.listGroup.filter(function (elem) {
-//            if (elem.groupId === data.objectIdGroup) {
-//                data.username === gestionCtrl.user.username ? '' : appConstant.SHOW_MSG_INFO("New Message Group from: " + elem.groupName);
-//            }
-//        }).length > 0;
-//    }
 
     gestionCtrl.init();
 
